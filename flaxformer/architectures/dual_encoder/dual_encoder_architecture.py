@@ -82,6 +82,12 @@ class DualEncoderOutput(NamedTuple):
   right_encoded: Array
   logits: Union[Array, Dict[str, Array]]
 
+class DualEncoderOutput_Custom(NamedTuple):
+  left_encoded: Array
+  right_encoded: Array
+  right_negative_encoded: Array
+  logits: Union[Array, Dict[str, Array]]
+
 
 class MakeEncoderFn(Protocol):
   """Signature for functions that will make a low-level Encoder."""
@@ -423,7 +429,11 @@ class DualEncoder(nn.Module, param_remapping.ParameterRemappable):
             right_negative_encoded,
             enable_dropout=enable_dropout)
         logits[logit_creation_layer.name] = current_logits
-
-    return DualEncoderOutput(left_encoded, right_encoded, logits)
+    
+    # If negatives are used:
+    if right_negative_encoded is not None:
+      return DualEncoderOutput_Custom(left_encoded, right_encoded, right_negative_encoded, logits)
+    else :
+      return DualEncoderOutput(left_encoded, right_encoded, logits)
 
 
