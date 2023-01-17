@@ -55,7 +55,6 @@ class NonRepeatingDropout(nn.Module):
   def __call__(self, inputs, deterministic: Optional[bool] = None, rng=None):
     deterministic = nn.merge_param('deterministic', self.deterministic,
                                    deterministic)
-    print("inputs: ", inputs)
     if self.rate == 0.:
       return inputs
     keep_prob = 1. - self.rate
@@ -212,7 +211,6 @@ class DualEncoder(nn.Module, param_remapping.ParameterRemappable):
   dtype: DType = jnp.float32
 
   def setup(self):
-    print("self.inputs: ", self.inputs)
     self.token_embedder = (
         self.shared_token_embedder_factory()  # pylint: disable=not-callable
         if self.shared_token_embedder_factory else None)
