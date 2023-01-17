@@ -240,6 +240,7 @@ class Embed(nn.Module, Embedder[Array]):
       Output which is embedded input data.  The output shape follows the input,
       with an additional `features` dimension appended.
     """
+    print("embedding.Embed inputs in __call__ function: ", inputs)
     del segment_ids  # Unused.
     if input_axis_names is None:
       input_axis_names = self.input_axis_names

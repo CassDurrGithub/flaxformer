@@ -55,6 +55,7 @@ class NonRepeatingDropout(nn.Module):
   def __call__(self, inputs, deterministic: Optional[bool] = None, rng=None):
     deterministic = nn.merge_param('deterministic', self.deterministic,
                                    deterministic)
+    print("inputs: ", inputs)
     if self.rate == 0.:
       return inputs
     keep_prob = 1. - self.rate
